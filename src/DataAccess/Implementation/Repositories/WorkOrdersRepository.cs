@@ -477,6 +477,9 @@ namespace MGCap.DataAccess.Implementation.Repositories
             SELECT 
 	            [dbo].[WorkOrders].[ID],
                 [dbo].[WorkOrders].[Guid],
+                [dbo].[WorkOrders].[ScheduleID],
+                [dbo].[WorkOrders].[ScheduleType],
+                [dbo].[WorkOrders].[DueDatePriority],
                 ISNULL([dbo].[WorkOrders].[CalendarItemFrequencyId], 0) AS [CalendarItemFrequencyId],
 	            [dbo].[WorkOrders].[CreatedDate] AS DateSubmitted,
 	            ISNULL([dbo].[WorkOrders].[AdministratorId], 0) as AdministratorId,
@@ -557,6 +560,27 @@ namespace MGCap.DataAccess.Implementation.Repositories
             }
 
             return result;
+        }
+
+
+        //    Task<DataSource<WorkOrderGridViewModel>> ReadWordOrdersById(DataSourceRequestWOReadAll request, int companyId, int workOrderId);
+
+        public async Task<DataSource<WorkOrderGridViewModel>> GetWorkOrderStaus(int companyId, int workOrderId)
+        {
+            var result = new DataSource<WorkOrderGridViewModel>
+            {
+                Payload = new List<WorkOrderGridViewModel>(),
+                Count = 0
+            };
+
+            DynamicParameters parameters = new DynamicParameters();
+
+            parameters.Add("@workOrderID", workOrderId);
+            var payload = await this._baseDapperRepository.QueryAsync<WorkOrderGridViewModel>("GetWorkOrderStaus", parameters, System.Data.CommandType.StoredProcedure);
+            result.Payload = payload;
+            //result.Count = payload.FirstOrDefault()?.Count ?? 0;
+            result.Count = 0;
+            return result;   
         }
 
         public async Task<DataSource<WorkOrderGridViewModel>> ReadAllAppDapperAsync(
@@ -1361,6 +1385,10 @@ namespace MGCap.DataAccess.Implementation.Repositories
                     [dbo].[WorkOrders].[ScheduleSubCategoryId],
                     [dbo].[WorkOrders].[Unscheduled],
                     [dbo].[WorkOrders].[WorkOrderScheduleSettingId],
+                    [dbo].[WorkOrders].[ScheduleID],
+                    [dbo].[WorkOrders].[ScheduleType],
+                    [dbo].[WorkOrders].[DueDatePriority],
+
 
 	                -- CLONING FIELDS
                     CASE 
@@ -2052,6 +2080,88 @@ namespace MGCap.DataAccess.Implementation.Repositories
             return result;
         }
 
+        public async Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllScheduleWorkOrdersDapperAsync(DataSourceRequestCalendar request, int companyId)
+        {
+            var result = new DataSource<WorkOrderCalendarGridViewModel>
+            {
+                Payload = new List<WorkOrderCalendarGridViewModel>(),
+                Count = 0
+            };
+
+            DynamicParameters parameters = new DynamicParameters();
+
+            request.TypeId = request.TypeId.HasValue ? (request.TypeId == -1 ? null : request.TypeId) : null;
+
+            string where = string.Empty;
+            if (request.DateFrom.HasValue)
+            {
+                where += $"AND CAST(CASE WHEN WO.[ScheduleDate] IS NULL THEN WO.[DUEDATE] ELSE WO.[ScheduleDate] END AS DATE) >= CAST(@dateFrom AS DATE)  ";
+                //where += $" AND (CAST(WO.[ScheduleDate] AS DATE) >= @dateFrom) ";
+            }
+
+            if (request.DateTo.HasValue)
+            {
+                where += $"AND CAST(CASE WHEN WO.[ScheduleDate] IS NULL THEN WO.[DUEDATE] ELSE WO.[ScheduleDate] END AS DATE) <= CAST(@dateTo AS DATE)   ";
+                //where += $" AND (CAST(WO.[ScheduleDate] AS DATE) <= @dateTo) ";
+            }
+
+            if (request.ApprovedStatus.HasValue)
+            {
+                if (request.ApprovedStatus.Value != 3)
+                {
+                    where += $" AND WO.ClientApproved = @ApprovedStatus";
+                }
+            }
+
+            if (request.ScheduleDateConfirmed.HasValue)
+            {
+                if (request.ScheduleDateConfirmed.Value != 3)
+                {
+                    where += $" AND WO.ScheduleDateConfirmed = @ScheduleDateConfirmed ";
+                }
+            }
+            if (request.ScheduleCategory != null)
+            {
+                where += $" AND WO.ScheduleCategoryId in @scheduleCategory";
+                parameters.Add("@scheduleCategory", request.ScheduleCategory.ToList());
+
+                if (request.ScheduleSubCategory != null)
+                {
+                    if (request.ScheduleSubCategory.Length > 0)
+                    {
+                        where += $" AND WO.ScheduleSubCategoryId in @scheduleSubCategory";
+                        parameters.Add("@scheduleSubCategory", request.ScheduleSubCategory.ToList());
+                    }
+                }
+            }
+
+
+
+           
+
+           // parameters.Add("@CompanyId", companyId);
+
+            parameters.Add("@pStartDate", request.DateFrom);
+            parameters.Add("@pEndDate", request.DateTo);
+
+            //parameters.Add("@DueDateStatus", request.DueDateStatus);
+            //parameters.Add("@ScheduleDateConfirmed", request.ScheduleDateConfirmed);
+            //parameters.Add("@ApprovedStatus", request.ApprovedStatus);
+
+            //parameters.Add("@BuildingId", request.BuildingId);
+            //parameters.Add("@CustomerId", request.CustomerId);
+            //parameters.Add("@TypeId", request.TypeId);
+
+            //parameters.Add("@pageNumber", request.PageNumber);
+            //parameters.Add("@pageSize", request.PageSize);
+
+            var payload = await this._baseDapperRepository.QueryAsync<WorkOrderCalendarGridViewModel>("getScheduleWorkOrder", parameters, System.Data.CommandType.StoredProcedure);
+            result.Payload = payload;
+            result.Count = payload.FirstOrDefault()?.Count ?? 0;
+
+            return result;
+        }
+
         public async Task<IEnumerable<WorkOrderTaskSummaryViewModel>> ReadAllWorkOrderSequence(int calendarItemFrequencyId)
         {
             IEnumerable<WorkOrderTaskSummaryViewModel> result = new
@@ -2115,6 +2225,11 @@ namespace MGCap.DataAccess.Implementation.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@WorkOrderId", workOrderId);
             await this._baseDapperRepository.ExecuteAsync(query, parameters);
+        }
+
+        public Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllCaslendarDapperAsync(DataSourceRequestCalendar request, int companyId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

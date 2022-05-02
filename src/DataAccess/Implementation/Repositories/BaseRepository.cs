@@ -14,14 +14,10 @@ using MGCap.Domain.Options;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace MGCap.DataAccess.Implementation.Repositories
 {
@@ -40,19 +36,6 @@ namespace MGCap.DataAccess.Implementation.Repositories
         where TEntity : Entity<TKey>
     {
         private bool disposedValue = false; // To detect redundant calls
-
-        /// <summary>
-        /// Set of newly added <see cref="IDocumentEntity{T}"/> entities to be
-        /// set their Number property after disposing <see cref="DbContext"/>
-        /// </summary>
-        private HashSet<IEntity> _addedDocuments = new HashSet<IEntity>();
-        
-        
-        /// <summary>
-        /// Set of modified <see cref="IDocumentEntity{T}"/> entities to
-        /// avoid updating their Number property
-        /// </summary>
-        private HashSet<IEntity> _updatedDocuments = new HashSet<IEntity>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository{TEntity, TKey}"/> class.
@@ -441,11 +424,7 @@ namespace MGCap.DataAccess.Implementation.Repositories
             try
             {
                 this.UpdateSoftDeletableEntities();
-                this.SkipNumbersUpdate();
-                this.UpdateDocumentEntities();
-                var result = this.DbContext.SaveChanges();
-                this.AssignNumbers();
-                return result;
+                return this.DbContext.SaveChanges();
             }
             catch (SqlException sqlEx)
             {
@@ -457,210 +436,6 @@ namespace MGCap.DataAccess.Implementation.Repositories
             }
         }
 
-        private void SkipNumbersUpdate()
-        {
-            try
-            {
-                var entries = this.DbContext
-                    .ChangeTracker
-                    .Entries()
-                    .Where(ent => ent.State == EntityState.Modified)
-                    ?.ToList();
-
-                foreach (var entry in entries)
-                {
-                    switch (entry.Entity)
-                    {
-                        case null:
-                            continue;
-                        case IDocumentEntity<int> intEntity:
-                            this.DbContext.Entry(intEntity).Property(e => e.Number).IsModified = false;
-                            break;
-                        case IDocumentEntity<long> longEntity:
-                            this.DbContext.Entry(longEntity).Property(e => e.Number).IsModified = false;
-                            break;
-                        case IDocumentEntity<string> strEntity:
-                            this.DbContext.Entry(strEntity).Property(e => e.Number).IsModified = false;
-                            break;
-                    }  
-                }
-            }
-            catch
-            {
-                // ignored
-            } 
-        }
-
-        private void UpdateDocumentEntities()
-        {
-            try
-            {
-                var entries = this.DbContext
-                    .ChangeTracker
-                    .Entries()
-                    .Where(ent => ent.State == EntityState.Added)
-                    ?.ToList();
-
-                foreach (var entry in entries)
-                {
-                    this.TrackEntityDocument(entry);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-        
-        private void TrackEntityDocument(EntityEntry entry)
-        {
-            switch (entry.Entity)
-            {
-                case null:
-                    return;
-                case IDocumentEntity<int> intEntity:
-                    this.TrackDocument(entry.State, intEntity);
-                    break;
-                case IDocumentEntity<long> longEntity:
-                    this.TrackDocument(entry.State, longEntity);
-                    break;
-                case IDocumentEntity<string> strEntity:
-                    this.TrackDocument(entry.State, strEntity);
-                    break;
-            } 
-        }
-
-        private void TrackDocument<T>(EntityState state, IDocumentEntity<T> entity)
-        {
-            switch (state)
-            {
-                case EntityState.Added:
-                    this._addedDocuments.Add(entity as IEntity);
-                    break;
-                case EntityState.Modified:
-                    break;
-                case EntityState.Detached:
-                    break;
-                case EntityState.Unchanged:
-                    break;
-                case EntityState.Deleted:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            } 
-        }
-
-        /// <summary>
-        /// Updates POCO references with their actual Number from DB
-        /// </summary>
-        private void AssignNumbers()
-        {
-            try
-            {
-                var createdEntries = this._addedDocuments.ToArray();
-
-                foreach (var entity in createdEntries)
-                {
-                    switch (entity)
-                    {
-                        case null:
-                            continue;
-                        case IDocumentEntity<int> intEntity:
-                            switch (intEntity)
-                            {
-                                case IEntity<int> strNumber:
-                                    intEntity.Number = this.ReadNumber<int,int>(intEntity as IEntity<int>);
-                                    break;
-                                case IEntity<long> strNumber:
-                                    intEntity.Number = this.ReadNumber<long,int>(intEntity as IEntity<long>);
-                                    break;
-                                case IEntity<string> strNumber:
-                                    intEntity.Number = this.ReadNumber<string,int>(intEntity as IEntity<string>);
-                                    break;
-                            }
-                            this._addedDocuments.Remove(entity);
-                            break;
-                        case IDocumentEntity<long> longEntity:
-                            switch (longEntity)
-                            {
-                                case IEntity<int> strNumber:
-                                    longEntity.Number = this.ReadNumber<int, long>(longEntity as IEntity<int>);
-                                    break;
-                                case IEntity<long> strNumber:
-                                    longEntity.Number = this.ReadNumber<long, long>(longEntity as IEntity<long>);
-                                    break;
-                                case IEntity<string> strNumber:
-                                    longEntity.Number = this.ReadNumber<string, long>(longEntity as IEntity<string>);
-                                    break;
-                            }
-                            this._addedDocuments.Remove(entity);
-                            break;
-                        case IDocumentEntity<string> strEntity:
-                            switch (strEntity)
-                            {
-                                case IEntity<int> strNumber:
-                                    strEntity.Number = this.ReadNumber<int, string>(strEntity as IEntity<int>);
-                                    break;
-                                case IEntity<long> strNumber:
-                                    strEntity.Number = this.ReadNumber<long, string>(strEntity as IEntity<long>);
-                                    break;
-                                case IEntity<string> strNumber:
-                                    strEntity.Number = this.ReadNumber<string, string>(strEntity as IEntity<string>);
-                                    break;
-                            }
-                            this._addedDocuments.Remove(entity);
-                            break;
-                    }
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        /// <summary>
-        ///  Reads the recently added entity's Number using raw SQL queries
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <typeparam name="TDocumentKey"></typeparam>
-        /// <typeparam name="TDocumentNumber"></typeparam>
-        /// <returns></returns>
-        private TDocumentNumber ReadNumber<TDocumentKey,TDocumentNumber>(IEntity<TDocumentKey> entity)
-        {
-            TDocumentNumber result = default;
-            var type = entity.GetType();
-
-            var model = this.DbContext.Model;
-            var entityTypes = model.GetEntityTypes();
-            var entityType = entityTypes.First(t => t.ClrType == type);
-            var tableNameAnnotation = entityType.GetAnnotation("Relational:TableName");
-            var tableName = tableNameAnnotation.Value.ToString();
-
-            var query = $"SELECT TOP 1 [Number] FROM {tableName} WHERE ID = @id";
-
-            using (var command = this.DbContext.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = query;
-                command.CommandType = CommandType.Text;
-                var parameter = new SqlParameter("@id", entity.ID);
-                command.Parameters.Add(parameter);
-
-                this.DbContext.Database.OpenConnection();
-
-                using (var readerResult = command.ExecuteReader())
-                {
-                    while (readerResult.Read())
-                    {
-                        result = (TDocumentNumber)readerResult[0];
-                    }
-                }
-            }
-
-            return result;
-        }
-
-
         /// <summary>
         ///     Asynchronously saves all changes made in the Context to the Database
         /// </summary>
@@ -670,11 +445,7 @@ namespace MGCap.DataAccess.Implementation.Repositories
             try
             {
                 this.UpdateSoftDeletableEntities();
-                this.SkipNumbersUpdate();
-                this.UpdateDocumentEntities();
-                var result = await this.DbContext.SaveChangesAsync();
-                this.AssignNumbers();
-                return result;
+                return await this.DbContext.SaveChangesAsync();
             }
             catch (DbUpdateException dbuEx)
             {

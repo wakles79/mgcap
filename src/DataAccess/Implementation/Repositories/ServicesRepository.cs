@@ -16,13 +16,76 @@ namespace MGCap.DataAccess.Implementation.Repositories
     public class ServicesRepository : BaseRepository<Service, int>, IServicesRepository
     {
         protected readonly IBaseDapperRepository _baseDapperRepository;
-
+        
+        private readonly ISchedulerRepository SchedulerRepository;
+        /// <summary>
+        ///     Gets dB representation of the object
+        ///     of type TEntity.
+        /// </summary>
+        public DbSet<Scheduler> Entities { get; }
         public ServicesRepository(
             MGCapDbContext dbContext, IBaseDapperRepository baseDapperRepository) 
             : base(dbContext)
         {
             _baseDapperRepository = baseDapperRepository;
+            
+            this.Entities = (this.DbContext as MGCapDbContext).Set<Scheduler>();
         }
+
+
+        /// <summary>
+        ///     Adds an object to the table
+        /// </summary>
+        /// <param name="obj">The object to be added</param>
+        /// <returns>Returns the <paramref name="obj"/> after being inserted</returns>
+        public Scheduler Add(Scheduler obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException("The given object must not be null");
+            }
+
+            this.Entities.Add(obj);
+            return obj;
+        }
+
+        /// <summary>
+        ///     Asynchronously adds an object to the table
+        /// </summary>
+        /// <param name="obj">The object to be added</param>
+        /// <returns>Returns the <paramref name="obj"/> after being inserted</returns>
+        public async Task<Scheduler> AddAsync(Scheduler obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "The given object must not be null");
+            }
+
+            await this.Entities.AddAsync(obj);
+            return obj;
+        }
+
+        public async Task<Scheduler> AddCleaningReportItemAsync(Scheduler obj)
+        {
+            var scheduler = await SchedulerRepository.AddAsync(obj);
+
+            if (scheduler != null)
+            {
+                var itemLog = new List<ItemLogEntry>();
+                itemLog.Add(new ItemLogEntry()
+                {
+                    ActivityType = "Added"
+                });
+
+                //this.RegisterLogActivity(
+                //    obj.CleaningReportId,
+                //    CleaningReportActivityType.ItemUpdated,
+                //    itemLog: itemLog);
+            }
+
+            return scheduler;
+        }
+
 
         public async Task<DataSource<ServiceListViewModel>> ReadAllCboDapperAsync(DataSourceRequest request, int companyId, int? id = null)
         {

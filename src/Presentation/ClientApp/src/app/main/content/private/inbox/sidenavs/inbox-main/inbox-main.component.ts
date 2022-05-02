@@ -173,6 +173,8 @@ export class InboxMainComponent implements OnInit, OnDestroy {
       if (a.name > b.name) { return 1; }
       return 0;
     });
+
+    console.log('sources', this.sourcesToFilter);
   }
 
   get selectedSourceById(): any {

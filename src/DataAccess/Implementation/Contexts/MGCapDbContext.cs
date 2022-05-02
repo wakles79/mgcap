@@ -614,5 +614,11 @@ namespace MGCap.DataAccess.Implementation.Context
         /// Gets or sets a <see cref="DbSet{TicketEmailHistory}"/> for the creation of the <value>TicketEmailHistory</value> table and handling its data
         /// </summary>
         public virtual DbSet<TicketEmailHistory> TicketEmailHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="DbSet{TEnity}"/> for the creation of the <value>Scheduler</value> table
+        ///  and handling its data.
+        /// </summary>
+        public virtual DbSet<Scheduler> schedule_WorkOrder { get; set; }
     }
 }

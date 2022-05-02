@@ -310,8 +310,7 @@ export class InspectionItemComponent implements OnInit, OnDestroy {
       assignedEmployeeId: null,
       pendingReview: false,
       assignedEmployeeName: null,
-      newRequesterResponse: false,
-      messageId: null
+      newRequesterResponse: false
     };
 
     this.ticketDialogRef = this.dialog.open(TicketFormDialogComponent, {

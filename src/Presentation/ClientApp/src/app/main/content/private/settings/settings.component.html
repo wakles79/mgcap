@@ -32,8 +32,7 @@
             (click)="enableEditMode()">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button class="fuse-white-fg" matTooltip="Save Changes" *ngIf="editMode"
-            (click)="saveChanges()">
+          <button mat-icon-button class="fuse-white-fg" matTooltip="Save Changes" *ngIf="editMode" (click)="saveChanges()">
             <mat-icon>check_circle</mat-icon>
           </button>
           <button mat-icon-button class="fuse-white-fg" matTooltip="Cancel" *ngIf="editMode" (click)="cancelEditMode()">
@@ -81,109 +80,96 @@
         <div class="content" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column"
           fxLayoutAlign.xs="start none" fxLayout.sm="column" fxLayoutAlign.sm="start none" fxLayout.md="column"
           fxLayoutAlign.md="start none" fxLayoutGap="15px">
-          <div fxFlex="68" fxLayout="column" fxLayoutGap="15px">
-
-            <mat-card class="setting-box p-0" *mgcapRemoveIfFeatureOff="'company-settings-rate'">
-              <mat-card-header class="box-header">
-                <mat-card-title class="m-0">Rate Settings</mat-card-title>
-              </mat-card-header>
-              <mat-card-content class="box-content">
-                <!--FICA-->
-                <div class="info-line">
-                  <div class="title">FICA (Federal Insurance Contributions Act)</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.federalInsuranceContributionsAct | number:'1.2'}}
-                      %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="federalInsuranceContributionsAct">
-                    </mat-form-field>
-                  </div>
+          <mat-card class="setting-box p-0" fxFlex="68" *mgcapRemoveIfFeatureOff="'company-settings-rate'">
+            <mat-card-header class="box-header">
+              <mat-card-title class="m-0">Rate Settings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="box-content">
+              <!--FICA-->
+              <div class="info-line">
+                <div class="title">FICA (Federal Insurance Contributions Act)</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.federalInsuranceContributionsAct | number:'1.2'}}
+                    %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="federalInsuranceContributionsAct">
+                  </mat-form-field>
                 </div>
-                <!--END-->
+              </div>
+              <!--END-->
 
-                <!--MEDICARE-->
-                <div class="info-line">
-                  <div class="title">MEDICARE</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.medicare | number:'1.2'}} %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="medicare">
-                    </mat-form-field>
-                  </div>
+              <!--MEDICARE-->
+              <div class="info-line">
+                <div class="title">MEDICARE</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.medicare | number:'1.2'}} %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="medicare">
+                  </mat-form-field>
                 </div>
-                <!--END MEDICARE-->
+              </div>
+              <!--END MEDICARE-->
 
-                <!--FUTA-->
-                <div class="info-line">
-                  <div class="title">FUTA (Federal Unemployment Tax Act)</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.federalUnemploymentTaxAct | number:'1.2'}}
-                      %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="federalUnemploymentTaxAct">
-                    </mat-form-field>
-                  </div>
+              <!--FUTA-->
+              <div class="info-line">
+                <div class="title">FUTA (Federal Unemployment Tax Act)</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.federalUnemploymentTaxAct | number:'1.2'}} %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="federalUnemploymentTaxAct">
+                  </mat-form-field>
                 </div>
-                <!--END FUTA-->
+              </div>
+              <!--END FUTA-->
 
-                <!--SUI-->
-                <div class="info-line">
-                  <div class="title">SUI (State Unemployment Insurance)</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.stateUnemploymentInsurance | number:'1.2'}}
-                      %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="stateUnemploymentInsurance">
-                    </mat-form-field>
-                  </div>
+              <!--SUI-->
+              <div class="info-line">
+                <div class="title">SUI (State Unemployment Insurance)</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.stateUnemploymentInsurance | number:'1.2'}}
+                    %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="stateUnemploymentInsurance">
+                  </mat-form-field>
                 </div>
-                <!--END SUI-->
+              </div>
+              <!--END SUI-->
 
-                <!--WC-->
-                <div class="info-line">
-                  <div class="title">WC (Worker's Compensation)</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.workersCompensation | number:'1.2'}} %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="workersCompensation">
-                    </mat-form-field>
-                  </div>
+              <!--WC-->
+              <div class="info-line">
+                <div class="title">WC (Worker's Compensation)</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.workersCompensation | number:'1.2'}} %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="workersCompensation">
+                  </mat-form-field>
                 </div>
-                <!--END WC-->
+              </div>
+              <!--END WC-->
 
-                <!--GL-->
-                <div class="info-line">
-                  <div class="title">GL (General Ledger)</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false">{{companySettings.generalLedger | number:'1.2'}} %</span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="generalLedger">
-                    </mat-form-field>
-                  </div>
+              <!--GL-->
+              <div class="info-line">
+                <div class="title">GL (General Ledger)</div>
+                <div class="info">
+                  <span *ngIf="editMode === false">{{companySettings.generalLedger | number:'1.2'}} %</span>
+                  <mat-form-field fxFlex *ngIf="editMode">
+                    <input matInput formControlName="generalLedger">
+                  </mat-form-field>
                 </div>
-                <!--END GL-->
+              </div>
+              <!--END GL-->
 
-                <!--TOTAL-->
-                <div class="info-line">
-                  <div class="title black-fg">TOTAL</div>
-                  <div class="info">
-                    <span>{{totalBudgetPercentage}} %</span>
-                  </div>
+              <!--TOTAL-->
+              <div class="info-line">
+                <div class="title black-fg">TOTAL</div>
+                <div class="info">
+                  <span>{{totalBudgetPercentage}} %</span>
                 </div>
-                <!--END TOTAL-->
-              </mat-card-content>
-            </mat-card>
+              </div>
+              <!--END TOTAL-->
+            </mat-card-content>
+          </mat-card>
 
-            <mat-card class="setting-box p-0">
-              <mat-card-header class="box-header">
-                <mat-card-title class="m-0">Default Email Signature</mat-card-title>
-              </mat-card-header>
-              <mat-card-content class="box-content">
-                <kendo-editor [readonly]="!editMode" [value]="companySettings.emailSignature"
-                  formControlName="emailSignature" style="height: 570px;"></kendo-editor>
-              </mat-card-content>
-            </mat-card>
-          </div>
           <div fxFlex="30" fxLayout="column" fxLayoutGap="15px">
             <mat-card class="setting-box p-0">
               <mat-card-header class="box-header">
@@ -216,47 +202,6 @@
 
                 <app-verify-freshdesk [key]="freshdeskKey" [agentId]="freshdeskAgentId" *ngIf="editMode">
                 </app-verify-freshdesk>
-              </mat-card-content>
-            </mat-card>
-
-            <mat-card class="setting-box p-0">
-              <mat-card-header class="box-header">
-                <mat-card-title class="m-0">GMail</mat-card-title>
-              </mat-card-header>
-              <mat-card-content class="box-content">
-                <!--GMAIL-->
-                <div class="info-line">
-                  <div class="info">
-                    <span *ngIf="editMode === false">
-                      <mat-checkbox [checked]="companySettings.gmailEnabled" [disabled]="true">
-                        <span *ngIf="companySettings.gmailEnabled === true">Enabled</span>
-                        <span *ngIf="companySettings.gmailEnabled === false">Disabled</span>
-                      </mat-checkbox>
-                    </span>
-
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <mat-slide-toggle formControlName="gmailEnabled" color="primary"></mat-slide-toggle>
-                      <textarea matInput hidden></textarea>
-                      <mat-hint>
-                        <span *ngIf="companySettings.gmailEnabled === true">Disable Gmail</span>
-                        <span *ngIf="companySettings.gmailEnabled === false">Enable Gmail</span>
-                      </mat-hint>
-                    </mat-form-field>
-
-                  </div>
-                </div>
-                <!--END GMAIL-->
-
-                <div class="info-line">
-                  <div class="title">Email</div>
-                  <div class="info">
-                    <span *ngIf="editMode === false"> {{companySettings.gmailEmail }} </span>
-                    <mat-form-field fxFlex *ngIf="editMode">
-                      <input matInput formControlName="gmailEmail">
-                    </mat-form-field>
-                  </div>
-                </div>
-
               </mat-card-content>
             </mat-card>
 

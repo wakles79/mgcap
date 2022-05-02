@@ -49,6 +49,9 @@ namespace MGCap.Business.Abstract.ApplicationServices
 
         Task<DataSource<WorkOrderGridViewModel>> ReadAllDapperAsync(DataSourceRequestWOReadAll request, int? administratorId = null, int? statusId = null, int? buildingId = null, int? typeId = null, bool unscheduled = false);
 
+        Task<DataSource<WorkOrderGridViewModel>> GetWorkOrderStaus(int workOrderId);
+
+
         Task<DataSource<WOSourcesListBoxViewModel>> ReadAllWOSourceCboDapperAsync(DataSourceRequest request);
 
         Task<WorkOrderSource> GetWOSourceDapperAsync(WorkOrderSourceCode code);

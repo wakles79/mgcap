@@ -50,7 +50,12 @@ namespace MGCap.Presentation.Middlewares
             "/api/files/uploadattachments",
             "/api/files/deleteattachmentbyblobname",
             "/api/externaltickets/register",
-            "/api/externaltickets/registerrequesterresponse"
+            "/api/externaltickets/registerrequesterresponse",
+            "/api/scheduler/readall",
+            "/api/scheduler/addscheduler",
+            "/api/scheduler/updatescheduler",
+            "/api/scheduler/readbyworkorderid",
+            "/api/scheduler/ReadScheduleWorkorders",
         };
 
         // We need a "scoped" dependency, that's why we add empAppService here and not in CTOR

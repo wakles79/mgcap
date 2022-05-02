@@ -47,13 +47,25 @@ namespace MGCap.Business.Implementation.ApplicationServices
 
         public async Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllActivitiesDapperAsync(DataSourceRequestCalendar request)
         {
-            var result = await this.WorkOrdersRepository.ReadAllCalendarDapperAsync(request, this.CompanyId);
+            var result = await this.WorkOrdersRepository.ReadAllCaslendarDapperAsync(request, this.CompanyId);
 
             //result.Payload = (inspections.Payload).Concat(tickets.Payload);
             //result.Count = inspections.Payload.Count() + tickets.Payload.Count();
 
             return result;
         }
+
+        public async Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllScheduleWorkOrdersDapperAsync(DataSourceRequestCalendar request)
+        {
+            var result = await this.WorkOrdersRepository.ReadAllScheduleWorkOrdersDapperAsync(request, this.CompanyId);
+
+            //result.Payload = (inspections.Payload).Concat(tickets.Payload);
+            //result.Count = inspections.Payload.Count() + tickets.Payload.Count();
+
+            return result;
+        }
+
+        
 
         #region Calendar Item
         public async Task<CalendarItemFrequencySummaryViewModel> AddCalendarItemFrequencyAsync(CalendarItemFrequency calendarItemFrequency)

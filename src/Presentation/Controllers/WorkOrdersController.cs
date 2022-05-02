@@ -86,6 +86,18 @@ namespace MGCap.Presentation.Controllers
             return new JsonResult(wosVM);
         }
 
+
+
+        [HttpGet]
+        [PermissionsFilter("ReadWorkOrders")]
+        [AllowAnonymous]
+        public async Task<ActionResult<DataSource<WorkOrderGridViewModel>>> GetWorkOrderStaus(int workOrderId)
+        {
+            var wosVM = await this.AppService.GetWorkOrderStaus(workOrderId);
+            return new JsonResult(wosVM);
+        }
+
+
         /// <summary>
         /// Return all Work Order for mobile App
         /// </summary>

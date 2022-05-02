@@ -38,7 +38,7 @@ namespace MGCap.Presentation.Controllers
         {
             try
             {
-                var result = await this._AppService.ReadAllActivitiesDapperAsync(request);
+                var result = await this._AppService.ReadAllScheduleWorkOrdersDapperAsync(request);
                 return new JsonResult(result);
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace MGCap.Presentation.Controllers
             }
         }
 
-
+        
         [HttpGet]
         [PermissionsFilter("ReadCalendar")]
         public async Task<ActionResult<DataSource<WorkOrderCalendarGridViewModel>>> ReadAllWoCalendar(DataSourceRequestCalendar request)

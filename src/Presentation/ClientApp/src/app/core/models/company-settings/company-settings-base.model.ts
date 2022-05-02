@@ -21,11 +21,6 @@ export class CompanySettingsBaseModel extends CompanyEntity {
   freshdeskDefaultAgentId: string;
   freshdeskDefaultApiKey: string;
 
-  gmailEnabled: boolean;
-  gmailEmail: string;
-
-  emailSignature: string;
-
 
   constructor(companySettingsBaseModel: CompanySettingsBaseModel) {
     super(companySettingsBaseModel);
@@ -48,10 +43,6 @@ export class CompanySettingsBaseModel extends CompanyEntity {
     this.freshdeskEmail = companySettingsBaseModel.freshdeskEmail || '';
     this.freshdeskDefaultAgentId = companySettingsBaseModel.freshdeskDefaultAgentId || '';
     this.freshdeskDefaultApiKey = companySettingsBaseModel.freshdeskDefaultApiKey || '';
-
-    this.gmailEnabled = companySettingsBaseModel.gmailEnabled || false;
-    this.gmailEmail = companySettingsBaseModel.gmailEmail || '';
-    this.emailSignature = companySettingsBaseModel.emailSignature;
   }
 
 }

@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanySettingsDetailModel } from '@app/core/models/company-settings/company-settings-detail.model';
 import { AuthService } from '@app/core/services/auth.service';
 import { FilesService } from '@app/core/services/files.service';
-import { fuseAnimations } from '@fuse/animations';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SettingsService } from './settings.service';
@@ -12,9 +11,7 @@ import { SettingsService } from './settings.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-  animations: fuseAnimations,
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
 
@@ -106,10 +103,7 @@ export class SettingsComponent implements OnInit {
       generalLedger: [this.companySettings.generalLedger.toFixed(2), [Validators.required, Validators.pattern('^\\d+\\.\\d+$')]],
       stateTax: [this.companySettings.stateTax.toFixed(2), [Validators.required, Validators.pattern('^\\d+\\.\\d+$')]],
       freshdeskDefaultAgentId: [this.companySettings.freshdeskDefaultAgentId],
-      freshdeskDefaultApiKey: [this.companySettings.freshdeskDefaultApiKey],
-      gmailEnabled: [this.companySettings.gmailEnabled],
-      gmailEmail: [this.companySettings.gmailEmail],
-      emailSignature: [this.companySettings.emailSignature],
+      freshdeskDefaultApiKey: [this.companySettings.freshdeskDefaultApiKey]
     });
   }
 

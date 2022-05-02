@@ -99,6 +99,8 @@ namespace MGCap.Business.Implementation.Extensions
             // Azure service
             services.AddTransient<IAzureStorage, AzureStorage>();
 
+            services.AddScoped<ISchedulerApplicationService, SchedulerApplicationService>();
+
             return services;
         }
     }

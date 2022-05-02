@@ -95,5 +95,7 @@ namespace MGCap.Domain.ViewModels.WorkOrder
         public bool Unscheduled { get; set; }
 
         public int? WorkOrderScheduleSettingId { get; set; }
+        public string DueDatePriority { get; set; }
+
     }
 }

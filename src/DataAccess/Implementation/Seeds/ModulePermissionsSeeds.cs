@@ -388,6 +388,14 @@ namespace MGCap.DataAccess.Implementation.Seeds
                     Module = ApplicationModule.Calendar,
                     Type = ActionType.Read
                 },
+                
+                // Calendar
+                new Permission()
+                {
+                    Name = "ReadScheduleWorkorders",
+                    Module = ApplicationModule.Calendar,
+                    Type = ActionType.Read
+                },
                 new Permission()
                 {
                     Name = "ReadInspectionFromCalendar",
@@ -988,6 +996,12 @@ namespace MGCap.DataAccess.Implementation.Seeds
                     Name = "WorkOrderTaskBillingNotes",
                     Module = ApplicationModule.WorkOrder,
                     Type = ActionType.Write
+                },
+                 new Permission()
+                {
+                    Name= "ReadScheduleList",
+                    Module = ApplicationModule.Scheduler,
+                    Type = ActionType.Read
                 },
             };
 

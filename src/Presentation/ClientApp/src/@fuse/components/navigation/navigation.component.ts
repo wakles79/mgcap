@@ -90,8 +90,7 @@ export class FuseNavigationComponent implements OnInit, OnDestroy {
       });
 
     // Polling for inbox batch number
-    //const inboxUnreadCount$ = this.http.get<number>(`${environment.apiUrl}api/tickets/pending`);
-    const inboxUnreadCount$ = this.http.get<number>(document.getElementsByTagName('base')[0].href + `api/tickets/pending`);
+    const inboxUnreadCount$ = this.http.get<number>(`${environment.apiUrl}api/tickets/pending`);
 
     interval(60000)
       .pipe(
@@ -170,12 +169,12 @@ export class FuseNavigationComponent implements OnInit, OnDestroy {
     });
 
     this.hidden = !this.hidden;
-    // Update the inbox menu item
+    // Update the calendar menu item
     this._fuseNavigationService.updateNavigationItem('inbox', {
         hidden: this.hidden
     });
 
-    // Update the inbox2 menu item
+    // Update the calendar menu item
     this._fuseNavigationService.updateNavigationItem('inbox2', {
       hidden: !this.hidden
     });

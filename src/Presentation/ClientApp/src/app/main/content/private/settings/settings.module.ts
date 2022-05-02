@@ -16,9 +16,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { EditorModule } from '@progress/kendo-angular-editor';
 
 const routes: Routes = [
   {
@@ -34,9 +31,6 @@ const routes: Routes = [
     imports: [
     FuseSharedModule,
     RouterModule.forChild(routes),
-
-    EditorModule,
-
     FeatureFlagModule,
     MatIconModule,
     MatButtonModule,
@@ -45,8 +39,6 @@ const routes: Routes = [
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSlideToggleModule,
-    MatCheckboxModule,
 
     // Add shared modules
     VerifyFreshdeskModule

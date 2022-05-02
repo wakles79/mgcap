@@ -24,6 +24,7 @@ namespace MGCap.Business.Abstract.ApplicationServices
     public interface ICalendarApplicationService
     {
         Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllActivitiesDapperAsync(DataSourceRequestCalendar request);
+        Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllScheduleWorkOrdersDapperAsync(DataSourceRequestCalendar request);
 
         #region Calendar Item
         Task<CalendarItemFrequencySummaryViewModel> AddCalendarItemFrequencyAsync(CalendarItemFrequency calendarItemFrequency);

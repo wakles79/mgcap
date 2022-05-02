@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TicketBaseModel, TicketDestinationType, TicketSource, TicketStatus, TicketStatusColor } from '@app/core/models/ticket/ticket-base.model';
 import { fuseAnimations } from '@fuse/animations';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { TicketReplyFormComponent } from './ticket-reply-form/ticket-reply-form.component';
 import { FdTicketBaseModel } from '@app/core/models/freshdesk/fd-ticket-base.model';
-import { GmailTicket } from '@app/core/models/gmail/gmail-ticket.interface';
 import { FdConversationBaseModel } from '@app/core/models/freshdesk/fd-conversation-base.model';
 import { MergeTicketDialogComponent } from './merge-ticket-dialog/merge-ticket-dialog.component';
 import { TicketFormDialogComponent } from '@app/core/modules/ticket-form/ticket-form/ticket-form.component';
@@ -58,13 +57,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
   ticketId: number = 0;
   ticket: TicketBaseModel = null;
   freshdeskTicket: FdTicketBaseModel = null;
-  gmailTicket: GmailTicket = null;
   conversations: FdConversationBaseModel[] = [];
 
-  replyData: { to: string, message: string, signature?: string, cc: string[] } = null;
-
-  @ViewChild('replyContainer') replyContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('ticketDetail') ticketDetail: ElementRef<HTMLDivElement>;
+  replyData: { to: string, message: string, cc: string[] } = null;
 
   // Ticket
   public REF = {
@@ -246,17 +241,14 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
         this.checkForAttachmentsToAlbum();
 
         try {
-          if (response.gMailTicket) {
-            this.gmailTicket = response.gMailTicket;
-          }
           if (response.ticketFreshdesk) {
             const freshdeskTicketObj = new FdTicketDetailModel(response.ticketFreshdesk);
             this.freshdeskTicket = freshdeskTicketObj.ticket ? new FdTicketBaseModel(freshdeskTicketObj.ticket) : null;
             this.conversations = [];
             freshdeskTicketObj.conversations.forEach(c => {
               if (!c.private) {
-                c.body_html = this.createBodyHTML(c.body);
-                c.body_blockquote = this.createBodyBlockquote(c.body);
+                c.body_html=this.createBodyHTML(c.body);
+                c.body_blockquote=this.createBodyBlockquote(c.body);
                 this.conversations.push(new FdConversationBaseModel(c));
               }
             });
@@ -316,13 +308,6 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  scroll(el: HTMLElement): void {
-    // const topPos = this.ticketDetail.nativeElement.offsetTop;
-    // el.scrollIntoView({ behavior: 'smooth' });
-    el.scrollIntoView(true);
-    // el.scrollTop = topPos - 10;
-  }
-
   // Buttons
   sendTicketReply(): void {
     if (this.showTicketReply) {
@@ -330,15 +315,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       this.replyData = null;
     } else {
       this.editorMode = EditorMode.FreshdeskReply;
-      this.replyData = {
-        to: this?.gmailTicket?.replyTo ?? this.freshdeskTicket.email,
-        message: '',
-        signature: this.ticket.emailSignature,
-        cc: []
-      };
+      this.replyData = { to: this.freshdeskTicket.email, message: '', cc: [] };
       this.showTicketReply = true;
     }
-    this.scroll(this.replyContainer.nativeElement);
   }
 
   // Buttons
@@ -348,15 +327,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       this.replyData = null;
     } else {
       this.editorMode = EditorMode.FreshdeskReply;
-      this.replyData = {
-        to: this?.gmailTicket?.replyTo ?? this.freshdeskTicket.email,
-        message: '',
-        signature: this.ticket.emailSignature,
-        cc: this.ticketEmails
-      };
+      this.replyData = { to: this.freshdeskTicket.email, message: '', cc: this.ticketEmails };
       this.showTicketReply = true;
     }
-    this.scroll(this.replyContainer.nativeElement);
   }
 
   forwardTicket(): void {
@@ -372,15 +345,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: max-line-length
       // Please take a look at ticket <a href=\"${window.location.protocol}//${window.location.host}/app/inbox/ticket-detail/${this.ticketId}\" target=\"_blank\">${this.ticket.number}</a> <br/>
       const message: string = `${lastMessage}`;
-      this.replyData = {
-        to: '',
-        message: message,
-        signature: this.ticket.emailSignature,
-        cc: []
-      };
+      this.replyData = { to: '', message: message, cc: [] };
       this.showTicketReply = true;
     }
-    this.scroll(this.replyContainer.nativeElement);
   }
 
   shareTicket(): void {
@@ -396,15 +363,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: max-line-length
       // Please take a look at ticket <a href=\"${window.location.protocol}//${window.location.host}/app/inbox/ticket-detail/${this.ticketId}\" target=\"_blank\">${this.ticket.number}</a> <br/>
       const message: string = `Please take a look at ticket <a href=\"${window.location.protocol}//${window.location.host}/app/inbox/ticket-detail/${this.ticketId}\" target=\"_blank\">${this.ticket.number}</a> <br/> ${lastMessage}`;
-      this.replyData = {
-        to: '',
-        message: message,
-        signature: this.ticket.emailSignature,
-        cc: []
-      };
+      this.replyData = { to: '', message: message, cc: [] };
       this.showTicketReply = true;
     }
-    this.scroll(this.replyContainer.nativeElement);
   }
 
   mergeTicket(): void {
@@ -753,7 +714,7 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
 
       this.loading$.next(true);
       reply.ticket_id = this.freshdeskTicket.id;
-      reply.body;// += '<br/>' + this.threadEmail;
+      reply.body += '<br/>' + this.threadEmail;
       this._ticketService.sendTicketReply(reply, $event.files, this.ticketId)
         .subscribe(() => {
           this.showTicketReply = false;
@@ -825,26 +786,26 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
 
   createBodyBlockquote(bodyBase: string): string {
     const divBase = document.createElement('div');
-    var blockquoteBase = "";
+    var blockquoteBase="";
     divBase.innerHTML = bodyBase;
     const sections = divBase.getElementsByClassName('quoted-text');
     const sections2 = divBase.getElementsByClassName('freshdesk-quoted');
     const sections3 = divBase.getElementsByClassName('freshdesk_quote');
     const sections4 = divBase.getElementsByClassName('gmail_extra');
-    for (let index = 0; index < divBase.children.length; index++) {
+    for(let index = 0; index < divBase.children.length; index++){
 
     }
     for (let index = 0; index < sections.length; index++) {
-      blockquoteBase = divBase.getElementsByClassName('quoted-text')[index].innerHTML;
+      blockquoteBase=divBase.getElementsByClassName('quoted-text')[index].innerHTML;
     }
     for (let index = 0; index < sections2.length; index++) {
-      blockquoteBase = divBase.getElementsByClassName('freshdesk-quoted')[index].innerHTML;
+      blockquoteBase=divBase.getElementsByClassName('freshdesk-quoted')[index].innerHTML;
     }
     for (let index = 0; index < sections3.length; index++) {
-      blockquoteBase = divBase.getElementsByClassName('freshdesk_quote')[index].innerHTML;
+      blockquoteBase=divBase.getElementsByClassName('freshdesk_quote')[index].innerHTML;
     }
     for (let index = 0; index < sections4.length; index++) {
-      blockquoteBase = divBase.getElementsByClassName('gmail_extra')[index].innerHTML;
+      blockquoteBase=divBase.getElementsByClassName('gmail_extra')[index].innerHTML;
     }
     bodyBase = blockquoteBase;
     return bodyBase;
@@ -855,7 +816,9 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
     let thread = '<br/>';
 
     if (this.freshdeskTicket) {
-      thread += `${this.freshdeskTicket.description_text}`;
+      thread += `<blockquote cite=\"${this.freshdeskTicket.email}\">
+    <small>On ${this._datePipe.transform(this.freshdeskTicket.created_at, 'MMM d, y, h:mm:ss a')}, &#60;${this.freshdeskTicket.email}&#62; wrote:</small><br/>
+    <p>${this.freshdeskTicket.description_text}</p></blockquote>`;
     }
 
     emailConversations.forEach(c => {
@@ -869,14 +832,14 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       }
 
       // generate template
-      // const title = `On ${this._datePipe.transform(c.created_at, 'MMM d, y, h:mm:ss a')}, &#60;${c.support_email}&#62; wrote:`;
-      // const body = div.textContent || div.innerText || '';
-      // thread += `<blockquote cite=\"${c.support_email}\"><small>${title}</small><br/><p>${body}</p></blockquote>`;
+      const title = `On ${this._datePipe.transform(c.created_at, 'MMM d, y, h:mm:ss a')}, &#60;${c.support_email}&#62; wrote:`;
+      const body = div.textContent || div.innerText || '';
+      thread += `<blockquote cite=\"${c.support_email}\"><small>${title}</small><br/><p>${body}</p></blockquote>`;
     });
 
-
-    this.threadEmail = thread;
+    this.threadEmail = `<div class=\"quoted-text\">${thread}</div>`;
   }
+
   // Utils
   public fileType(name): string {
     const extension = this.extensionRegex.exec(name)[1];
@@ -1140,7 +1103,7 @@ export class FullTicketDetailComponent implements OnInit, OnDestroy {
       panelClass: 'ticket-activity-dialog',
       data: {
         id: ticket.id,
-        number: ticket.number
+        number:ticket.number
       }
     });
   }

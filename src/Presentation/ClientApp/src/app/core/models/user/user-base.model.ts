@@ -21,7 +21,6 @@ export class UserBaseModel extends CompanyEntity {
   hasFreshdeskAccount: boolean;
   freshdeskApiKey: string;
   freshdeskAgentId: string;
-  emailSignature: string;
   /**
    *
    */
@@ -47,6 +46,5 @@ export class UserBaseModel extends CompanyEntity {
     this.hasFreshdeskAccount = user.hasFreshdeskAccount || false;
     this.freshdeskApiKey = user.freshdeskApiKey || '';
     this.freshdeskAgentId = user.freshdeskAgentId || '';
-    this.emailSignature = user.emailSignature;
   }
 }

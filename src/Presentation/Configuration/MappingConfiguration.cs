@@ -60,6 +60,7 @@ using MGCap.Domain.ViewModels.Tag;
 using MGCap.Domain.ViewModels.WorkOrderServiceCategory;
 using MGCap.Domain.ViewModels.WorkOrderService;
 using MGCap.Domain.ViewModels.WorkOrderTask;
+using MGCap.Domain.ViewModels.Schedulers;
 
 namespace MGCap.Presentation.Configuration
 {
@@ -1173,15 +1174,15 @@ namespace MGCap.Presentation.Configuration
             #endregion
 
             #region CleaningReport
-            this.CreateMap<CleaningReportCreateViewModel, CleaningReport>();
-            this.CreateMap<CleaningReport, CleaningReportCreateViewModel>();
+            //this.CreateMap<CleaningReportCreateViewModel, CleaningReport>();
+            //this.CreateMap<CleaningReport, CleaningReportCreateViewModel>();
 
-            this.CreateMap<CleaningReportUpdateViewModel, CleaningReport>()
-                .IgnoreMember(dest => dest.Guid)
-                .IgnoreMember(dest => dest.Submitted)
-                .IgnoreMember(dest => dest.Number);
+            //this.CreateMap<CleaningReportUpdateViewModel, CleaningReport>()
+            //    .IgnoreMember(dest => dest.Guid)
+            //    .IgnoreMember(dest => dest.Submitted)
+            //    .IgnoreMember(dest => dest.Number);
 
-            this.CreateMap<CleaningReport, CleaningReportUpdateViewModel>();
+          //  this.CreateMap<CleaningReport, CleaningReportUpdateViewModel>();
             #endregion
 
             #region CLeaningReportItem
@@ -1550,7 +1551,6 @@ namespace MGCap.Presentation.Configuration
             #region Company Setings
             CreateMap<CompanySettingsBaseViewModel, CompanySettings>();
             CreateMap<CompanySettingsUpdateViewModel, CompanySettings>();
-            CreateMap<CompanySettingsDetailViewModel, CompanySettings>();
             #endregion
 
             #region Roles
@@ -1574,6 +1574,18 @@ namespace MGCap.Presentation.Configuration
             CreateBothMaps<ScheduleSettingSubCategory, ScheduleSubCategoryUpdateViewModel>();
             CreateBothMaps<ScheduleSettingSubCategory, ScheduleSubCategoryListBoxViewModel>();
             CreateBothMaps<ScheduleSettingSubCategory, ScheduleSubCategoryDetailsViewModel>();
+            #endregion
+
+            #region Scheduler
+            this.CreateMap<SchedulerCreateViewModel, Scheduler>();
+            this.CreateMap<Scheduler, SchedulerCreateViewModel>();
+
+
+            CreateBothMaps<Scheduler, SchedulerBaseViewModel>();
+            CreateBothMaps<Scheduler, SchedulerCreateViewModel>();
+            CreateBothMaps<Scheduler, SchedulerUpdateViewModel>();
+            CreateBothMaps<Scheduler, SchedulerListBoxViewModel>();
+            CreateBothMaps<Scheduler, SchedulerDetailsViewModel>();
             #endregion
 
             #region Calendar Item Frequency

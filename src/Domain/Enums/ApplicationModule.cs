@@ -31,6 +31,7 @@ namespace MGCap.Domain.Enums
         Roles,
         ScheduledWorkOrderCategories,
         BudgetSettings,
-        WorkOrderServicesCatalog
+        WorkOrderServicesCatalog,
+        Scheduler
     }
 }

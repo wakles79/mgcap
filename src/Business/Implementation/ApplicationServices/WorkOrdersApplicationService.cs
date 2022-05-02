@@ -109,6 +109,20 @@ namespace MGCap.Business.Implementation.ApplicationServices
             return await this.Repository.ReadAllDapperAsync(request, this.CompanyId, administratorId, statusId, buildingId, typeId, unscheduled);
         }
 
+        public async Task<DataSource<WorkOrderGridViewModel>> GetWorkOrderStaus(int workOrderId)
+        {
+            //// Assigning timezone offset
+            //request.TimezoneOffset = this.TimezonOffset;
+            //// Just to make sure logged employee Id gets passed
+            //if (!request.LoggedEmployeId.HasValue)
+            //{
+            //    request.LoggedEmployeId = await this.EmployeesRepository.GetEmployeeIdByEmailAndCompanyIdDapperAsync(this.UserEmail, this.CompanyId);
+            //}
+            return await this.Repository.GetWorkOrderStaus(this.CompanyId, workOrderId);
+        }
+
+
+
         public async Task<DataSource<WorkOrderGridViewModel>> ReadAllAppDapperAsync(DataSourceRequestWOReadAll request, int? administratorId = null, int? statusId = null, int? buildingId = null, int? supervisorId = null, int? operationsManagerId = null, int? number = null, int? typeId = null)
         {
             // Assigning timezone offset

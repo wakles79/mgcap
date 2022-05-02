@@ -43,7 +43,6 @@ import { ContactFormModule } from '@app/core/modules/contact-form/contact-form.m
 import { ConfirmDialogModule } from '@app/core/modules/confirm-dialog/confirm-dialog.module';
 import { DeleteConfirmDialogModule } from '@app/core/modules/delete-confirm-dialog/delete-confirm-dialog.module';
 import { VerifyFreshdeskModule } from '@app/core/modules/verify-freshdesk/verify-freshdesk.module';
-import { EditorModule } from '@progress/kendo-angular-editor';
 
 
 const routes: Routes = [
@@ -62,8 +61,6 @@ const routes: Routes = [
     FuseSharedModule,
     FuseSidebarModule,
     RouterModule.forChild(routes),
-
-    EditorModule,
 
     MatIconModule,
     MatProgressSpinnerModule,

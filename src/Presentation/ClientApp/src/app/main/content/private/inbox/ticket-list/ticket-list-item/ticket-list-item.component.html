@@ -12,7 +12,7 @@
         <span class="state new" *ngIf="ticket.pendingReview">
           New
         </span>
-        <span class="state new-response" *ngIf="ticket.newRequesterResponse && !ticket.pendingReview">
+        <span class="state new-response" *ngIf="ticket.newRequesterResponse">
           New Response
         </span>
         <span class="state expired-snooze-date" *ngIf="expiredSnoozeDate">

@@ -37,8 +37,6 @@ export class TicketBaseModel extends CompanyEntity {
   pendingReview: boolean;
   newRequesterResponse: boolean;
   isDeleted?: boolean; // hce_013
-  messageId: string; // GMail Message Id
-  emailSignature?: string;
 
   constructor(ticket: TicketBaseModel) {
     super(ticket);
@@ -74,9 +72,7 @@ export class TicketBaseModel extends CompanyEntity {
     this.assignedEmployeeName = ticket.assignedEmployeeName || null;
     this.pendingReview = ticket.pendingReview || false;
     this.newRequesterResponse = ticket.newRequesterResponse || false;
-    this.messageId = ticket.messageId || null;
     this.isDeleted = ticket.isDeleted || false; // hce_013
-    this.emailSignature = ticket.emailSignature;
   }
 }
 

@@ -42,7 +42,6 @@ export class FdTicketBaseModel extends EntityModel {
   public type: string;
   public created_at: Date;
   public updated_at: Date;
-  public messageId: string;
 
   constructor(ticket) {
     super(ticket);
@@ -83,6 +82,5 @@ export class FdTicketBaseModel extends EntityModel {
     this.type = ticket.type || null;
     this.created_at = ticket.created_at || null;
     this.updated_at = ticket.updated_at || null;
-    this.messageId = ticket.messageId || null;
   }
 }

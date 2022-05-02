@@ -77,7 +77,7 @@ namespace MGCap.Domain.Models
 
         [ForeignKey("CustomerContactId")]
         public Contact CustomerContact { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the work order source
         /// </summary>        
@@ -149,13 +149,13 @@ namespace MGCap.Domain.Models
 
         public string BillingNote { get; set; }
         #endregion
-
+        
         #region Requester Fields
         [MaxLength(250)]
         public string FullAddress { get; set; }
 
         [MaxLength(200)]
-        public string RequesterFullName { get; set; }
+        public string RequesterFullName { get; set; } 
 
         [MaxLength(128)]
         public string RequesterEmail { get; set; }
@@ -214,5 +214,12 @@ namespace MGCap.Domain.Models
 
         public int? WorkOrderScheduleSettingId { get; set; }
         #endregion Schedule Setting
+
+        #region "Scheduler"
+        public int ScheduleID { get; set; }
+        public string ScheduleType { get; set; }
+        public string DueDatePriority { get; set; }
+
+        #endregion
     }
 }

@@ -8,7 +8,6 @@ export class FdTicketReplyModel {
   public user_id: number;
   public cc_emails: string[];
   public bcc_emails: string[];
-  public messageId: string;
 
   constructor(ticket) {
     this.ticket_id = ticket.ticket_id || 0;
@@ -18,6 +17,5 @@ export class FdTicketReplyModel {
     this.user_id = ticket.user_id || 0;
     this.cc_emails = ticket.cc_emails || [];
     this.bcc_emails = ticket.bcc_emails || [];
-    this.messageId = ticket.messageId || null;
   }
 }

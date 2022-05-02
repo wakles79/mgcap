@@ -36,6 +36,8 @@ namespace MGCap.DataAccess.Abstract.Repository
 
         Task<DataSource<WorkOrderGridViewModel>> ReadAllDapperAsync(DataSourceRequestWOReadAll request, int companyId, int? administratorId = null, int? statusId = null, int? buildingId = null, int? typeId = null, bool unscheduled = false);
 
+        Task<DataSource<WorkOrderGridViewModel>> GetWorkOrderStaus(int companyId, int workOrderId);
+
         Task<DataSource<WOSourcesListBoxViewModel>> ReadAllWOSourceCboDapperAsync(DataSourceRequest request);
 
         Task<IEnumerable<WorkOrderContactViewModel>> GetWOContactsDapperAsync(WorkOrder wo);
@@ -70,10 +72,11 @@ namespace MGCap.DataAccess.Abstract.Repository
 
         Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllCalendarDapperAsync(DataSourceRequestCalendar request, int companyId);
 
+        Task<DataSource<WorkOrderCalendarGridViewModel>> ReadAllScheduleWorkOrdersDapperAsync(DataSourceRequestCalendar request, int companyId);
         Task<IEnumerable<WorkOrderTaskSummaryViewModel>> ReadAllWorkOrderSequence(int calendarItemFrequencyId);
         
         // Employees
         Task UnassignEmployeesByWorkOrderIdAsync(int workOrderId);
     }
 }
-
+

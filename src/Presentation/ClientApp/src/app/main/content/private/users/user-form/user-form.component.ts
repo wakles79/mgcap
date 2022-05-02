@@ -473,8 +473,7 @@ export class UserFormComponent implements OnInit {
       sendNotifications: [{ value: this.user.sendNotifications, disabled: this.readOnly }],
       hasFreshdeskAccount: [{ value: this.user.hasFreshdeskAccount, disabled: this.readOnly }],
       freshdeskApiKey: [{ value: this.user.freshdeskApiKey, disabled: this.readOnly }],
-      freshdeskAgentId: [{ value: this.user.freshdeskAgentId, disabled: this.readOnly }],
-      emailSignature: [{ value: this.user.emailSignature, disabled: this.readOnly }],
+      freshdeskAgentId: [{ value: this.user.freshdeskAgentId, disabled: this.readOnly }]
     });
   }
 

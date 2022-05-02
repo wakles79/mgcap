@@ -165,6 +165,8 @@ namespace MGCap.DataAccess.Implementation.Extensions
 
             services.AddScoped<ITicketEmailHistoryRepository, TicketEmailHistoryRepository>();
 
+            services.AddScoped<ISchedulerRepository, SchedulerRepository>();
+
             return services;
         }
     }

@@ -15,20 +15,6 @@ export class TicketFdConversationComponent implements OnInit {
   moreButtonText: string = "show more...";
   @Input() html;
   @Input() blockquote;
-
-  get styledHtml(): string {
-    const styles = `
-    <style>
-      blockquote {
-        margin: 0px 0px 0px 0.8ex !important;
-        border-left: 1px solid #6e5d5d !important;
-        padding-left: 1ex !important;
-      }
-    </style>
-    `;
-
-    return `${styles}${this.html}`;
-  }
   
   constructor() { }
 

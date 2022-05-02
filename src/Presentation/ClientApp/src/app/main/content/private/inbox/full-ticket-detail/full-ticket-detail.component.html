@@ -1,4 +1,4 @@
-<div id="ticket-detail" #ticketDetail class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="ticket-detail" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
   <!-- HEADER -->
   <div class="header px-16 py-8">
@@ -75,8 +75,7 @@
 
               <!-- OPTIONS -->
               <div>
-                <button mat-icon-button [matMenuTriggerFor]="mgTicketMenu" matTooltip="Tags"
-                  [disabled]="this.ticket.isDeleted">
+                <button mat-icon-button [matMenuTriggerFor]="mgTicketMenu" matTooltip="Tags" [disabled]="this.ticket.isDeleted">
                   <mat-icon class="s-20">label</mat-icon>
                 </button>
                 <mat-menu #mgTicketMenu="matMenu">
@@ -84,8 +83,7 @@
                     No Tags
                   </div>
                   <div style="max-height: 400px;" *ngIf="tags.length>0">
-                    <button mat-menu-item *ngFor="let tag of filteredTags" (click)="assignTag(tag.id)"
-                      [disabled]="this.ticket.isDeleted">
+                    <button mat-menu-item *ngFor="let tag of filteredTags" (click)="assignTag(tag.id)" [disabled]="this.ticket.isDeleted">
                       <mat-icon *ngIf="tag.assigned" class="m-0 s-20">check</mat-icon>
                       <span> {{tag.name}} </span>
                     </button>
@@ -118,29 +116,29 @@
                 <!-- REQUESTER NAME -->
                 <h6 class="f-title">Requester Name</h6>
                 <mat-form-field>
-                  <input matInput formControlName="requesterFullName" [readonly]="this.ticket.isDeleted">
+                  <input matInput formControlName="requesterFullName" [readonly]="this.ticket.isDeleted" >
                 </mat-form-field>
                 <!-- REQUESTER NAME -->
 
                 <!-- REQUESTER EMAIL -->
                 <h6 class="f-title">Requester Email</h6>
                 <mat-form-field>
-                  <input matInput formControlName="requesterEmail" [readonly]="this.ticket.isDeleted">
+                  <input matInput formControlName="requesterEmail" [readonly]="this.ticket.isDeleted" >
                 </mat-form-field>
                 <!-- REQUESTER EMAIL -->
 
                 <!-- REQUESTER PHONE -->
                 <h6 class="f-title">Requester Phone</h6>
                 <mat-form-field>
-                  <input matInput formControlName="requesterPhone" [readonly]="this.ticket.isDeleted">
+                  <input matInput formControlName="requesterPhone" [readonly]="this.ticket.isDeleted" >
                 </mat-form-field>
                 <!-- REQUESTER PHONE -->
 
                 <!-- SNOOZE DATE -->
                 <h6 class="f-title">Snooze Date</h6>
-                <mat-form-field floatLabel="never">
+                <mat-form-field floatLabel="never" >
                   <input matInput formControlName="snoozeDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt"
-                    autocomplete="off" [readonly]="this.ticket.isDeleted">
+                    autocomplete="off" [readonly]="this.ticket.isDeleted" >
                   <owl-date-time hour12Timer="true" [disabled]="this.ticket.isDeleted" #dt></owl-date-time>
                 </mat-form-field>
                 <!-- SNOOZE DATE -->
@@ -190,8 +188,7 @@
                 <!-- DESCRIPTION -->
                 <h6 class="f-title">Description</h6>
                 <mat-form-field>
-                  <textarea matInput formControlName="description" rows="3"
-                    [readonly]="this.ticket.isDeleted"></textarea>
+                  <textarea matInput formControlName="description" rows="3" [readonly]="this.ticket.isDeleted"></textarea>
                 </mat-form-field>
                 <!-- DESCRIPTION -->
               </div>
@@ -237,19 +234,10 @@
               <!-- ATTATCHMENTS -->
               <div fxLayout="row" fxLayout="row wrap" *ngIf="ticket.attachments.length > 0">
                 <div class="attachment" fxLayout="column" *ngFor="let attachment of ticket.attachments">
-                  <img *ngIf="attachment?.fullUrl?.startsWith('https://mgcap.blob.core.windows.net/img/')"
-                    class="w-100 mt-16 mr-8" [src]="attachment.fullUrl">
-                  <ng-container *ngIf="attachment?.fullUrl?.startsWith('https://mgcap.blob.core.windows.net/files/')">
-                    <mat-icon class="s-112">insert_drive_file</mat-icon>
-                    <span class="text-truncate">
-                      {{attachment.blobName | slice:0:14}}...
-                    </span>
-                  </ng-container>
+                  <img class="w-100 mt-16 mr-8" [src]="attachment.fullUrl">
                   <div fxLayout="column">
-                    <button *ngIf="attachment?.fullUrl?.startsWith('https://mgcap.blob.core.windows.net/img/')"
-                      (click)="openAlbumImage(attachment.id)">View</button>
-                    <button [matTooltip]="attachment.blobName"
-                      (click)="downloadImage(attachment.fullUrl, attachment.blobName)">Download</button>
+                    <button (click)="openAlbumImage(attachment.id)">View</button>
+                    <button (click)="downloadImage(attachment.fullUrl, attachment.blobName)">Download</button>
                   </div>
                 </div>
               </div>
@@ -329,8 +317,7 @@
                   [disabled]="ticket.status === REF.TicketStatus.converted || ticket.status === REF.TicketStatus.closed || ticket.isDeleted"
                   (click)="sendTicketReplyAll()" matTooltip="Reply All">
                   <mat-icon class="s-20">reply_all</mat-icon>
-                </button><button mat-button (click)="forwardTicket()" matTooltip="Forward"
-                  [disabled]="this.ticket.isDeleted">
+                </button><button mat-button (click)="forwardTicket()" matTooltip="Forward" [disabled]="this.ticket.isDeleted" >
                   <mat-icon class="s-20">forward</mat-icon>
                 </button>
               </div>
@@ -346,13 +333,13 @@
                   <mat-icon class="s-20">link</mat-icon>
                   Share
                 </button>
-                <button mat-button (click)="showActivity(ticket)">
+                <button mat-button (click)="showActivity(ticket)" >
                   <mat-icon class="s-20">assignment</mat-icon>
                   Activity
                 </button>
               </div>
 
-              <button mat-icon-button class="btn-ticket-option" *ngIf="convertMode" (click)="convertMode=false">
+              <button mat-icon-button class="btn-ticket-option" *ngIf="convertMode" (click)="convertMode=false" >
                 <mat-icon class="s-20">close</mat-icon>
               </button>
             </div>
@@ -500,9 +487,7 @@
                     <!-- CONTENT -->
                     <div>
 
-                      <app-ticket-fd-conversation [html]='conversation.body_html'
-                        [blockquote]="conversation.body_blockquote" *ngIf="conversation.activityType != 32">
-                      </app-ticket-fd-conversation>
+                      <app-ticket-fd-conversation [html]='conversation.body_html' [blockquote]="conversation.body_blockquote" *ngIf="conversation.activityType != 32"></app-ticket-fd-conversation>
 
                       <!--<div [innerHTML]="conversation.body | safeHtml" *ngIf="conversation.activityType != 32"></div>-->
 
@@ -563,16 +548,14 @@
             <!-- END FRESHDESK -->
 
             <!-- REPLY -->
-            <div #replyContainer>
-              <div class="w-100-p px-40 py-20" *ngIf="showTicketReply && !convertMode">
-                <mat-card>
-                  <mat-card-content>
-                    <app-ticket-reply [company]="companyName" [replyToData]="replyData"
-                      (replyEvent)="replyResponse($event)">
-                    </app-ticket-reply>
-                  </mat-card-content>
-                </mat-card>
-              </div>
+            <div class="w-100-p px-40 py-20" *ngIf="showTicketReply && !convertMode" ScrollTo>
+              <mat-card>
+                <mat-card-content>
+                  <app-ticket-reply [company]="companyName" [replyToData]="replyData"
+                    (replyEvent)="replyResponse($event)">
+                  </app-ticket-reply>
+                </mat-card-content>
+              </mat-card>
             </div>
             <!-- END REPLY -->
           </div>

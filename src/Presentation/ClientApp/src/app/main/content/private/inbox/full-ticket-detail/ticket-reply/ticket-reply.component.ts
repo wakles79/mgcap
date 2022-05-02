@@ -11,7 +11,7 @@ import { FullTicketDetailService } from '../full-ticket-detail.service';
 })
 export class TicketReplyComponent implements OnInit {
 
-  @Input() replyToData: { to: string, message: string, signature?: string, cc: string[] };
+  @Input() replyToData: { to: string, message: string, cc: string[] };
   @Input() company: string;
   @Output() replyEvent = new EventEmitter<any>();
 
@@ -51,10 +51,6 @@ export class TicketReplyComponent implements OnInit {
 
       // this.toEmail = this.replyToData.to ? this.replyToData.to : '';
       // this.replyToData.to = '';
-      // appends the signature to the message if any
-      if (this.replyToData.signature) {
-        this.emailBody += `<br>${this.replyToData.signature}<br>`;
-      }
     } catch (e) {
       console.log(e);
     }

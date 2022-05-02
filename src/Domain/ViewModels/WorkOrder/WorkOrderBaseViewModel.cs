@@ -100,5 +100,11 @@ namespace MGCap.Domain.ViewModels.WorkOrder
 
         public int? WorkOrderScheduleSettingId { get; set; }
         #endregion Schedule Setting
+
+        #region "Scheduler"
+        public int ScheduleID { get; set; }
+        public string ScheduleType { get; set; }
+        public string DueDatePriority { get; set; }
+        #endregion
     }
 }
